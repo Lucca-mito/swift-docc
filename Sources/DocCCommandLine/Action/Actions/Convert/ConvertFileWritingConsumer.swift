@@ -131,6 +131,22 @@ struct ConvertFileWritingConsumer: _WillBeMadeNonPublicConvertOutputConsumer, Ex
         for downloadAsset in context.registeredDownloadsAssets(for: inputsID) {
             try copyAsset(downloadAsset, to: downloadsDirectory)
         }
+        
+        // Create custom scripts directory if needed. Do not append the catalog
+        // identifier: when merging archives, only the first archive's
+        // custom-scripts.json and custom-scripts directory survive (mirroring the
+        // behavior of theme-settings.json and the favicon), so there is no need
+        // to namespace the directory.
+        let scriptsDirectory = targetFolder
+            .appendingPathComponent("custom-scripts", isDirectory: true)
+        if !fileManager.directoryExists(atPath: scriptsDirectory.path) {
+            try fileManager.createDirectory(at: scriptsDirectory, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        // Copy all registered custom scripts to the output directory.
+        for customScript in context.registeredCustomScripts(for: inputsID) {
+            try copyAsset(customScript, to: scriptsDirectory)
+        }
 
         // If the bundle contains a `header.html` file, inject a <template> into
         // the `index.html` file using its contents. This will only be done if
@@ -165,6 +181,16 @@ struct ConvertFileWritingConsumer: _WillBeMadeNonPublicConvertOutputConsumer, Ex
                 try fileManager.removeItem(at: targetFile)
             }
             try fileManager._copyItem(at: customFavicon, to: targetFile)
+        }
+        
+        // Copy the `custom-scripts.json` file into the output directory if one
+        // is provided.
+        if let customScripts = inputs.customScripts {
+            let targetFile = targetFolder.appendingPathComponent(customScripts.lastPathComponent, isDirectory: false)
+            if fileManager.fileExists(atPath: targetFile.path) {
+                try fileManager.removeItem(at: targetFile)
+            }
+            try fileManager._copyItem(at: customScripts, to: targetFile)
         }
     }
     
