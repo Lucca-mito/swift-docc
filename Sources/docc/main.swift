@@ -11,7 +11,6 @@
 #if os(macOS) || os(Linux) || os(Android) || os(Windows)
 import SwiftDocCUtilities
 
-print("Running MY DocC!")
 Docc.main()
 #else
 fatalError("Command line interface supported only on macOS, Linux and Windows platforms.")

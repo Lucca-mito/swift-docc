@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "DocC Scripts API",
+        "title": "Custom Scripts",
         "description": "This spec describes the permissible contents of a custom-scripts.json file in a documentation catalog, which is used to add custom scripts to a DocC-generated website.",
         "version": "0.0.1"
     },
@@ -10,7 +10,7 @@
         "schemas": {
             "Scripts": {
                 "type": "array",
-                "description": "The top-level object of a custom-scripts.json, which is an array of custom scripts.",
+                "description": "An array of custom scripts, which is the top-level container in a custom-scripts.json file.",
                 "items": {
                     "oneOf": [
                         { "$ref": "#/components/schemas/ExternalScript" },
@@ -41,7 +41,8 @@
                     {
                         "properties": {
                             "async": { "type": "boolean" },
-                            "defer": { "type": "boolean" }
+                            "defer": { "type": "boolean" },
+                            "integrity": { "type": "string" },
                         }
                     }
                 ]
@@ -53,12 +54,7 @@
                     {
                         "required": ["url"],
                         "properties": {
-                            "url": { "type": "string" },
-                            "integrity": { "type": "string" },
-                            "crossorigin": {
-                                "type": "string",
-                                "enum": ["anonymous", "use-credentials"]
-                            }
+                            "url": { "type": "string" }
                         }
                     }
                 ]
@@ -79,6 +75,7 @@
                 ]
             },
             "InlineScript": {
+                "description": "A script whose source code is in the custom-scripts.json file itself.",
                 "allOf": [
                     { "$ref": "#/components/schemas/Script" },
                     {

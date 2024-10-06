@@ -47,8 +47,7 @@ extension ConvertService {
                     info: info,
                     symbolGraphURLs: symbolGraphURLs,
                     markupURLs: markupFileURLs,
-                    miscResourceURLs: miscResourceURLs,
-                    customScripts: nil
+                    miscResourceURLs: miscResourceURLs
                 )
             )
         }

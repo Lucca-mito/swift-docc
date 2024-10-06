@@ -89,7 +89,7 @@ public enum DocumentationBundleFileTypes {
     /// Checks if a file is `custom-scripts.json`.
     /// - Parameter url: The file to check.
     /// - Returns: Whether or not the file at `url` is `custom-scripts.json`.
-    public static func isCustomScripts(_ url: URL) -> Bool {
+    public static func isCustomScriptsFile(_ url: URL) -> Bool {
         return url.lastPathComponent == customScriptsFileName
     }
 }

@@ -143,7 +143,7 @@ extension LocalFileSystemDataProvider {
     }
     
     private func findCustomScripts(_ bundleChildren: [FSNode]) -> FSNode.File? {
-        return bundleChildren.firstFile { DocumentationBundleFileTypes.isCustomScripts($0.url) }
+        return bundleChildren.firstFile { DocumentationBundleFileTypes.isCustomScriptsFile($0.url) }
     }
 }
 
